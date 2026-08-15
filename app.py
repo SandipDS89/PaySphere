@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from config import Config
 from extensions import db
 from sqlalchemy import or_
+import re
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -21,6 +22,7 @@ def login_required_api(f):
         return f(*args, **kwargs)
     return decorated_function
 
+EMAIL_PATTERN = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 
 @app.route("/")
 def home():
@@ -37,6 +39,10 @@ def register():
 
         if not name or not email or not password or not confirm_password:
             flash("All fields are required.", "danger")
+            return redirect(url_for("register"))
+
+        if not EMAIL_PATTERN.match(email):
+            flash("Please enter a valid email address.", "danger")
             return redirect(url_for("register"))
 
         if password != confirm_password:
