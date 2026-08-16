@@ -7,3 +7,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # turns off a feature we don't need, saves memory
     SECRET_KEY = os.getenv("SECRET_KEY")
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URL")
+    TESTING = True
+    WTF_CSRF_ENABLED = False

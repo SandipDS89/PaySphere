@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 cookies.txt
 .vscode/
+.pytest_cache/
+*.coverage
